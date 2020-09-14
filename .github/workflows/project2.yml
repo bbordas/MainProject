@@ -7,7 +7,7 @@ on:
     branches: 
       - '*'
     paths:
-      - project2/**
+      - projects/project2/**
 
 jobs:
   build:
