@@ -30,4 +30,6 @@ jobs:
         run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=project2 .
 
       - name: Push to Docker Hub
-        run: docker push bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) && bbordas/mainproject:latest
+        run: | 
+          docker push bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt)
+          docker push bbordas/mainproject:latest
