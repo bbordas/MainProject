@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build image
-        run: docker build . --file Dockerfile --tag mainproject:latest --build-args PROJECT_NAME=project2
+        run: docker build . --file Dockerfile --tag mainproject:latest --build-arg PROJECT_NAME=project2
 
       - name: Push to Docker Hub
         uses: docker/build-push-action@v2
