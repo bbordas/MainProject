@@ -14,6 +14,12 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
+        
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASS }}
 
       - name: Build image
         run: docker build . --file Dockerfile --tag bbordas/mainproject:latest --build-arg PROJECT_NAME=project2
