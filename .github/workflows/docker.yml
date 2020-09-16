@@ -25,9 +25,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASS }}
+          
+      - name: Display version
+        run: echo bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt)
 
       - name: Build image
-        run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=project2 .
+        run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --build-arg PROJECT_NAME=project2 .
 
       - name: Push to Docker Hub
         run: docker push bbordas/mainproject:latest
