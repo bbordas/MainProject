@@ -28,7 +28,7 @@ jobs:
           
           
       - name: Display path
-        run: echo ${{ GITHUB_EVENT_PATH }}
+        run: echo github.event.path
 
       - name: Build image
         run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=project2 .
