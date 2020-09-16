@@ -27,7 +27,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASS }}
 
       - name: Build image
-        run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:`cat /home/runner/work/MainProject/MainProject/version.txt;` --build-arg PROJECT_NAME=project2 .
+        run: mkdir src; git log -1 --format=%h > /home/runner/work/MainProject/MainProject/version.txt; docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:`cat /home/runner/work/MainProject/MainProject/version.txt;` --build-arg PROJECT_NAME=project2 .
 
       - name: Push to Docker Hub
         run: docker push bbordas/mainproject:latest
