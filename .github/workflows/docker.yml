@@ -25,6 +25,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASS }}
+          
+          
+      - name: Display path
+        run: echo ${{ GITHUB_EVENT_PATH }}
 
       - name: Build image
         run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=project2 .
