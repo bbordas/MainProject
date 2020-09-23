@@ -61,7 +61,7 @@ jobs:
 
     - name: Build image
       if: steps.filter.outputs.project1 == 'true' || steps.filter.outputs.project2 == 'true' || steps.filter.outputs.project3 == 'true'
-      run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject{$PROJECT}:latest --tag bbordas/mainproject{$PROJECT}:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=$PROJECT .
+      run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest bbordas/mainproject:$PROJECT --tag--tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=$PROJECT .
 
     - name: Build all images
       if: steps.filter.outputs.all == 'true'
@@ -73,5 +73,6 @@ jobs:
     - name: Push to Docker Hub
       if: steps.filter.outputs.project1 == 'true' || steps.filter.outputs.project2 == 'true' || steps.filter.outputs.project3 == 'true'
       run: | 
-        docker push bbordas/mainproject_project1:$(cat /home/runner/work/MainProject/MainProject/version.txt)
-        docker push bbordas/mainproject_project1:latest
+        docker push bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt)
+         docker push bbordas/mainproject:$PROJECT
+        docker push bbordas/mainproject:latest
