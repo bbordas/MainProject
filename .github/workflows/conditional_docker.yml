@@ -26,19 +26,19 @@ jobs:
       if: steps.filter.outputs.project1 == 'true'
       env:
         PROJECT: project1
-      run: echo $PROJECT PROJECT ${PROJECT}
+      run: echo $PROJECT
         
     - name: Set Project2 
       if: steps.filter.outputs.project2 == 'true'
       env:
         PROJECT: project2
-      run: echo $PROJECT PROJECT ${PROJECT}
+      run: echo $PROJECT
         
     - name: Set Project3
       if: steps.filter.outputs.project3 == 'true'
       env:
         PROJECT: project3
-      run: echo $PROJECT PROJECT ${PROJECT}
+      run: echo $PROJECT
       
       
     - name: Get Git Version
@@ -59,7 +59,7 @@ jobs:
 
     - name: Build image
       if: steps.filter.outputs.project1 == 'true' || steps.filter.outputs.project2 == 'true' || steps.filter.outputs.project3 == 'true'
-      run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=PROJECT .
+      run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=$PROJECT .
 
     - name: Push to Docker Hub
       if: steps.filter.outputs.project1 == 'true' || steps.filter.outputs.project2 == 'true' || steps.filter.outputs.project3 == 'true'
