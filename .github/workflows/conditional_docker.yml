@@ -43,4 +43,3 @@ jobs:
         run: | 
           docker push bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt)
           docker push bbordas/mainproject:latest
-gmgm
