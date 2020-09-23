@@ -47,7 +47,6 @@ jobs:
         PROJECT: all
       run: echo $PROJECT
       
-      
     - name: Get Git Version
       uses: docker://gittools/gitversion:5.0.2-beta1-27-linux-centos-7-netcoreapp2.2
       with:
@@ -62,13 +61,6 @@ jobs:
     - name: Build image
       if: steps.filter.outputs.project1 == 'true' || steps.filter.outputs.project2 == 'true' || steps.filter.outputs.project3 == 'true'
       run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:$(echo ${PROJECT}) --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=$PROJECT .
-
-    - name: Build all images
-      if: steps.filter.outputs.all == 'true'
-      run: |
-        docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:project1 --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=project1 .
-        docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:project2 --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=project2 .
-        docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:project3 --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=project3 .
 
     - name: Push to Docker Hub
       if: steps.filter.outputs.project1 == 'true' || steps.filter.outputs.project2 == 'true' || steps.filter.outputs.project3 == 'true'
