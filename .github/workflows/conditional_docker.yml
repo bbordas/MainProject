@@ -7,11 +7,11 @@ on:
   
   paths:
     run: |
-        if [["$STR" == *"project1"*]] && [["$STR" == *"project2"*]]; then
-          echo package1and2
-        elif [["$STR" == *"project1"*]]; then
+        if [["$STR" == "projects/project1/**"]] && [["$STR" == "projects/project2/**"]]; then
+          echo allprojects
+        elif [["$STR" == "projects/project1/**"]]; then
           echo project1
-        elif [["$STR" == *"project2"*]]; then
+        elif [["$STR" == "projects/project2/**"]]; then
           echo project2
           fi
         env:
