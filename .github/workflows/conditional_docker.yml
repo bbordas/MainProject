@@ -26,16 +26,19 @@ jobs:
       if: steps.filter.outputs.project1 == 'true'
       env:
         PROJECT: project1
+      run: echo $PROJECT PROJECT ${PROJECT}
         
     - name: Set Project2 
       if: steps.filter.outputs.project2 == 'true'
       env:
         PROJECT: project2
+      run: echo $PROJECT PROJECT ${PROJECT}
         
     - name: Set Project3
       if: steps.filter.outputs.project3 == 'true'
       env:
         PROJECT: project3
+      run: echo $PROJECT PROJECT ${PROJECT}
       
       
     - name: Get Git Version
