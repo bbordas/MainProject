@@ -21,8 +21,25 @@ jobs:
             - 'projects/project2/**'
           project3:
             - 'projects/project3/**'
+              
+    - name: Set Project1 
+      if: steps.filter.outputs.project1 == 'true'
+      env:
+        PROJECT: project1
+        
+    - name: Set Project2 
+      if: steps.filter.outputs.project2 == 'true'
+      env:
+        PROJECT: project2
+        
+    - name: Set Project3
+      if: steps.filter.outputs.project3 == 'true'
+      env:
+        PROJECT: project3
+      
       
     - name: Get Git Version
+      if: steps.filter.outputs.project1 == 'true' || steps.filter.outputs.project2 == 'true' || steps.filter.outputs.project3 == 'true'
       uses: docker://gittools/gitversion:5.0.2-beta1-27-linux-centos-7-netcoreapp2.2
       with:
         args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_ShortSha > /github/workspace/version.txt\""
@@ -31,15 +48,18 @@ jobs:
       run: echo steps.filter.outputs.project1
       
     - name: Login to DockerHub
+      if: steps.filter.outputs.project1 == 'true' || steps.filter.outputs.project2 == 'true' || steps.filter.outputs.project3 == 'true'
       uses: docker/login-action@v1 
       with:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASS }}
 
     - name: Build image
-      run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=project2 .
+      if: steps.filter.outputs.project1 == 'true' || steps.filter.outputs.project2 == 'true' || steps.filter.outputs.project3 == 'true'
+      run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=PROJECT .
 
     - name: Push to Docker Hub
+      if: steps.filter.outputs.project1 == 'true' || steps.filter.outputs.project2 == 'true' || steps.filter.outputs.project3 == 'true'
       run: | 
         docker push bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt)
         docker push bbordas/mainproject:latest
