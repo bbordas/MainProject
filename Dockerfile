@@ -11,6 +11,9 @@ RUN npm install --only=prod --quiet
 RUN npx env-install --quiet
 RUN NAME=$PROJECT npm run build
 
+FROM bbordas/private:latest
+RUN echo 'I am in'
+
 FROM nginx:1.17.1-alpine
 ARG PROJECT_NAME
 ENV PROJECT $PROJECT_NAME
