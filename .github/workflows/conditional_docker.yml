@@ -24,20 +24,20 @@ jobs:
             - 'package.json'
               
     - name: Set Project1 
-      uses: allenevans/set-env@c1.0.0
+      uses: allenevans/set-env@v1.0.0
       if: steps.filter.outputs.project1 == 'true'
       with:
         PROJECT: project1
         
     - name: Set Project2
       if: steps.filter.outputs.project2 == 'true'
-      uses: allenevans/set-env@c1.0.0
+      uses: allenevans/set-env@v1.0.0
       with:
         PROJECT: project2 
         
     - name: Set Project3
       if: steps.filter.outputs.project3 == 'true'
-      uses: allenevans/set-env@c1.0.0
+      uses: allenevans/set-env@v1.0.0
       with:
         PROJECT: project3 
       
