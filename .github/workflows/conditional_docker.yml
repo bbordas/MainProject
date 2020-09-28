@@ -69,4 +69,4 @@ jobs:
             PROJECT_NAME=$PROJECT
         tags: |
             bbordas/mainproject:latest
-            bbordas/mainproject:${{cat /home/runner/work/MainProject/MainProject/version.txt}} 
+            bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt)
