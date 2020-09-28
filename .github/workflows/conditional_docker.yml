@@ -4,8 +4,14 @@ on:
   push:
     branches:
       - '**'
+  workflow_dispatch:
+  
 jobs:
-  push:
+  build:
+    strategy:
+      matrix:
+        configuration: [Release]
+
     runs-on: ubuntu-latest
 
     steps:
@@ -51,14 +57,16 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASS }}
-
-    - name: Build image
-      run: |
-        echo $PROJECT
-        docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=$PROJECT .
-
-    - name: Push to Docker Hub
-      if: steps.filter.outputs.project1 == 'true' || steps.filter.outputs.project2 == 'true' || steps.filter.outputs.project3 == 'true'
-      run: | 
-        docker push bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt)
-        docker push bbordas/mainproject:latest
+        
+    - name: Build and push to Docker
+      uses: docker/build-push-action@v2
+      with:
+        file: ./Dockerfile
+        platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x
+        push: true
+        no-cache: true
+        build-args: |
+            PROJECT_NAME=$PROJECT
+        tags: |
+            bbordas/mainproject:latest
+            bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) 
