@@ -3,7 +3,7 @@ name: Conditional Docker
 on:
   push:
     branches:
-      - master
+      - '**'
 jobs:
   push:
     runs-on: ubuntu-latest
@@ -24,28 +24,22 @@ jobs:
             - 'package.json'
               
     - name: Set Project1 
+      uses: allenevans/set-env@c1.0.0
       if: steps.filter.outputs.project1 == 'true'
-      env:
+      with:
         PROJECT: project1
-      run: echo $PROJECT
         
-    - name: Set Project2 
+    - name: Set Project2
       if: steps.filter.outputs.project2 == 'true'
-      env:
-        PROJECT: project2
-      run: echo $PROJECT
+      uses: allenevans/set-env@c1.0.0
+      with:
+        PROJECT: project2 
         
     - name: Set Project3
       if: steps.filter.outputs.project3 == 'true'
-      env:
-        PROJECT: project3
-      run: echo $PROJECT
-    
-    - name: Set All
-      if: steps.filter.outputs.project3 == 'true'
-      env:
-        PROJECT: all
-      run: echo $PROJECT
+      uses: allenevans/set-env@c1.0.0
+      with:
+        PROJECT: project3 
       
     - name: Get Git Version
       uses: docker://gittools/gitversion:5.0.2-beta1-27-linux-centos-7-netcoreapp2.2
