@@ -1,72 +1,72 @@
-# name: Conditional Docker
+name: Conditional Docker
 
-# on:
-#   push:
-#     branches:
-#       - '**'
-#   workflow_dispatch: 
+on:
+  push:
+    branches:
+      - 'conditional'
+  workflow_dispatch: 
   
-# jobs:
-#   build:
-#     strategy:
-#       matrix:
-#         configuration: [Release]
+jobs:
+  build:
+    strategy:
+      matrix:
+        configuration: [Release]
 
-#     runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-#     steps:
-#     - uses: actions/checkout@v1
-#     - uses: dorny/paths-filter@v2
-#       id: filter
-#       with:
-#         filters: |
-#           project1:
-#             - 'projects/project1/**'
-#           project2:
-#             - 'projects/project2/**'
-#           project3:
-#             - 'projects/project3/**'
-#           all:
-#             - 'package.json'
+    steps:
+    - uses: actions/checkout@v1
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          project1:
+            - 'projects/project1/**'
+          project2:
+            - 'projects/project2/**'
+          project3:
+            - 'projects/project3/**'
+          all:
+            - 'package.json'
               
-#     - name: Set Project1 
-#       uses: allenevans/set-env@v1.0.0
-#       if: steps.filter.outputs.project1 == 'true'
-#       with:
-#         PROJECT: project1
+    - name: Set Project1 
+      uses: allenevans/set-env@v1.0.0
+      if: steps.filter.outputs.project1 == 'true'
+      with:
+        PROJECT: project1
         
-#     - name: Set Project2
-#       if: steps.filter.outputs.project2 == 'true'
-#       uses: allenevans/set-env@v1.0.0
-#       with:
-#         PROJECT: project2 
+    - name: Set Project2
+      if: steps.filter.outputs.project2 == 'true'
+      uses: allenevans/set-env@v1.0.0
+      with:
+        PROJECT: project2 
         
-#     - name: Set Project3
-#       if: steps.filter.outputs.project3 == 'true'
-#       uses: allenevans/set-env@v1.0.0
-#       with:
-#         PROJECT: project3 
+    - name: Set Project3
+      if: steps.filter.outputs.project3 == 'true'
+      uses: allenevans/set-env@v1.0.0
+      with:
+        PROJECT: project3 
       
-#     - name: Get Git Version
-#       uses: docker://gittools/gitversion:5.0.2-beta1-27-linux-centos-7-netcoreapp2.2
-#       with:
-#         args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_ShortSha > /github/workspace/version.txt\""
+    - name: Get Git Version
+      uses: docker://gittools/gitversion:5.0.2-beta1-27-linux-centos-7-netcoreapp2.2
+      with:
+        args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_ShortSha > /github/workspace/version.txt\""
       
-#     - name: Login to DockerHub
-#       uses: docker/login-action@v1 
-#       with:
-#         username: ${{ secrets.DOCKERHUB_USER }}
-#         password: ${{ secrets.DOCKERHUB_PASS }}
+    - name: Login to DockerHub
+      uses: docker/login-action@v1 
+      with:
+        username: ${{ secrets.DOCKERHUB_USER }}
+        password: ${{ secrets.DOCKERHUB_PASS }}
         
-#     - name: Build and push to Docker
-#       uses: docker/build-push-action@v2
-#       with:
-#         file: ./Dockerfile
-#         platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x
-#         push: true
-#         no-cache: true
-#         build-args: |
-#             PROJECT_NAME=$PROJECT
-#         tags: |
-#             bbordas/mainproject:latest
-#             bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt)
+    - name: Build and push to Docker
+      uses: docker/build-push-action@v2
+      with:
+        file: ./Dockerfile
+        platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x
+        push: true
+        no-cache: true
+        build-args: |
+            PROJECT_NAME=$PROJECT
+        tags: |
+            bbordas/mainproject:latest
+            bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt)
