@@ -1,0 +1,25 @@
+
+name: CI
+
+on: 
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Project name'     
+        required: true
+        default: 'project1'
+      environmentToDeploy:
+        description: 'environment'     
+        required: true
+        default: 'dev'
+      tags:
+        description: 'Test scenario tags' 
+        
+jobs:
+  printInputs:
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo "Log level: ${{ github.event.inputs.logLevel }}"
+        echo "Log level: ${{ github.event.inputs.environmentToDeploy }}"
+        echo "Tags: ${{ github.event.inputs.tags }}" 
