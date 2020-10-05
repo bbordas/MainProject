@@ -34,16 +34,15 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASS }}
         
-    - name: Build and push to Docker
-      uses: docker/build-push-action@v2
-      with:
-        file: ./Dockerfile
-        platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x
-        push: true
-        no-cache: true
-        build-args: |
-            PROJECT_NAME=${{ github.event.inputs.projectName }}
-        tags: |
-            bbordas/mainproject:latest
-            bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt)
+    - name: Build image
+      run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=${{ github.event.inputs.projectName }} .
 
+    - name: Push to Docker Hub
+      run: | 
+          docker push bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt)
+          docker push bbordas/mainproject:latest
+          
+    - name: display environment
+      run: |
+        echo ${{ github.event.inputs.projectName }}
+        echo ${{ github.event.inputs.environment }}
