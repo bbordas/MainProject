@@ -1,5 +1,4 @@
-
-name: CI
+name: Manual input trigger
 
 on: 
   workflow_dispatch:
