@@ -24,22 +24,22 @@ jobs:
       with:
         args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_ShortSha > /github/workspace/version.txt\""
       
-    - name: set environment variables
+    - name: Set env
       uses: allenevans/set-env@v1.0.0
       with:
-        overwrite: false
+        overwrite: false
         PROJECT: ${{ github.event.inputs.projectName }}
-        IMAGE: "bbordas/mainproject_${{ github.event.inputs.projectName }}"
-        VERSION: $(cat /home/runner/work/MainProject/MainProject/version.txt)  
-        
-    - name: printenv
-      run: printenv
-        
+        VERSION: $(cat /home/runner/work/MainProject/MainProject/version.txt)
+        IMAGE: bbordas/mainproject_${{ github.event.inputs.projectName }}
+
     - name: Login to DockerHub
       uses: docker/login-action@v1 
       with:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASS }}
+        
+    - name: Printenv
+      run: printenv
         
     - name: Build image
       run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=$PROJECT .
