@@ -23,20 +23,20 @@ jobs:
       uses: docker://gittools/gitversion:5.0.2-beta1-27-linux-centos-7-netcoreapp2.2
       with:
         args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_ShortSha > /github/workspace/version.txt\""
-      
-    - name: Set env
-      uses: allenevans/set-env@v1.0.0
-      with:
-        overwrite: false
-        PROJECT: ${{ github.event.inputs.projectName }}
-        VERSION: $(cat /home/runner/work/MainProject/MainProject/version.txt)
-        IMAGE: bbordas/mainproject_${{ github.event.inputs.projectName }}
 
     - name: Login to DockerHub
       uses: docker/login-action@v1 
       with:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASS }}
+        
+    - name: Set env
+      uses: allenevans/set-env@v1.0.0
+      with: 
+        overwrite: false
+        PROJECT: ${{ github.event.inputs.projectName }}
+        VERSION: $(cat /home/runner/work/MainProject/MainProject/version.txt)
+        IMAGE: bbordas/mainproject_${{ github.event.inputs.projectName }}
         
     - name: Printenv
       run: printenv
