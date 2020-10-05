@@ -3,22 +3,47 @@ name: Manual input trigger
 on: 
   workflow_dispatch:
     inputs:
-      logLevel:
+      projectName:
         description: 'Project name'     
         required: true
         default: 'project1'
-      environmentToDeploy:
+      environment:
         description: 'environment'     
         required: true
         default: 'dev'
-      tags:
-        description: 'Test scenario tags' 
         
 jobs:
-  printInputs:
+  build:
+    strategy:
+      matrix:
+        configuration: [Release]
+
     runs-on: ubuntu-latest
+
     steps:
-    - run: |
-        echo "Log level: ${{ github.event.inputs.logLevel }}"
-        echo "Log level: ${{ github.event.inputs.environmentToDeploy }}"
-        echo "Tags: ${{ github.event.inputs.tags }}" 
+    - uses: actions/checkout@v1
+      
+    - name: Get Git Version
+      uses: docker://gittools/gitversion:5.0.2-beta1-27-linux-centos-7-netcoreapp2.2
+      with:
+        args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_ShortSha > /github/workspace/version.txt\""
+      
+    - name: Login to DockerHub
+      uses: docker/login-action@v1 
+      with:
+        username: ${{ secrets.DOCKERHUB_USER }}
+        password: ${{ secrets.DOCKERHUB_PASS }}
+        
+    - name: Build and push to Docker
+      uses: docker/build-push-action@v2
+      with:
+        file: ./Dockerfile
+        platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x
+        push: true
+        no-cache: true
+        build-args: |
+            PROJECT_NAME=${{ github.event.inputs.projectName }}
+        tags: |
+            bbordas/mainproject:latest
+            bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt)
+
