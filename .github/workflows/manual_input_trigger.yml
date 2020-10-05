@@ -14,10 +14,6 @@ on:
         
 jobs:
   build:
-    strategy:
-      matrix:
-        configuration: [Release]
-
     runs-on: ubuntu-latest
 
     steps:
@@ -28,6 +24,17 @@ jobs:
       with:
         args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_ShortSha > /github/workspace/version.txt\""
       
+    - name: Set environment variables
+      uses: allenevans/set-env@1.0.0
+      with:
+        overwrite: false
+        PROJECT: ${{ github.event.inputs.projectName }}
+        IMAGE: bbordas/mainproject_${{ github.event.inputs.projectName }}
+        VERSION: $(cat /home/runner/work/MainProject/MainProject/version.txt) 
+        
+    - name: printenv
+      run: printenv
+        
     - name: Login to DockerHub
       uses: docker/login-action@v1 
       with:
@@ -35,7 +42,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASS }}
         
     - name: Build image
-      run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=${{ github.event.inputs.projectName }} .
+      run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject:latest --tag bbordas/mainproject:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=$PROJECT .
 
     - name: Push to Docker Hub
       run: | 
