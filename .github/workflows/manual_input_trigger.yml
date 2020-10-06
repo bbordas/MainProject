@@ -54,17 +54,13 @@ jobs:
           
     - name: Build and push
       uses: docker/build-push-action@v2
-      env:
-        VERSION: ${{ steps.hello.outputs.text }}
-        PROJECT: ${{ github.event.inputs.projectName }}
-        IMAGE: bbordas/mainproject_${{ github.event.inputs.projectName }}
       with:
         context: .
         file: ./Dockerfile
-        build-args: PROJECT_NAME=$PROJECT 
+        build-args: PROJECT_NAME=${{ github.event.inputs.projectName }}
         no-cache: true 
         push: true
         tags: |
-            $IMAGE:latest
-            $IMAGE:$VERSION
+            bbordas/mainproject_${{ github.event.inputs.projectName }}:latest
+            bbordas/mainproject_${{ github.event.inputs.projectName }}:${{ steps.hello.outputs.text }}
         
