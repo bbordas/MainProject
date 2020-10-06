@@ -44,12 +44,12 @@ jobs:
 #         IMAGE: bbordas/mainproject_${{ github.event.inputs.projectName }}
         
     - name: Build image
-      run: docker build --no-cache --file Dockerfile --tag $IMAGE:latest --tag $IMAGE:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=$PROJECT .
+      run: docker build --no-cache --file Dockerfile --tag $IMAGE:latest --tag $(cat IMAGE):$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=$(cat PROJECT) .
 
     - name: Push to Docker Hub
       run: | 
-          docker push ${IMAGE}:$(cat /home/runner/work/MainProject/MainProject/version.txt)
-          docker push ${IMAGE}:latest
+          docker push $(cat {IMAGE}):$(cat /home/runner/work/MainProject/MainProject/version.txt)
+          docker push $(cat {IMAGE}):latest
           
     - name: display environment
       run: |
