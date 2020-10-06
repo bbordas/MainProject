@@ -30,13 +30,19 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASS }}
         
-    - name: Set env
-      uses: allenevans/set-env@v1.0.0
-      with: 
-        overwrite: false
-        PROJECT: ${{ github.event.inputs.projectName }}
-        VERSION: $(cat /home/runner/work/MainProject/MainProject/version.txt)
-        IMAGE: bbordas/mainproject_${{ github.event.inputs.projectName }}
+    - name: Define variables
+      run: |
+          echo "$(cat /home/runner/work/MainProject/MainProject/version.txt)" > VERSION
+          echo "${{ github.event.inputs.projectName }}" > PROJECT
+          echo "bbordas/mainproject_${{ github.event.inputs.projectName }}" > IMAGE
+        
+#     - name: Set env
+#       uses: allenevans/set-env@v1.0.0
+#       with: 
+#         overwrite: false
+#         PROJECT: ${{ github.event.inputs.projectName }}
+#         VERSION: $(cat /home/runner/work/MainProject/MainProject/version.txt)
+#         IMAGE: bbordas/mainproject_${{ github.event.inputs.projectName }}
         
     - name: Build image
       run: docker build --no-cache --file Dockerfile --tag $IMAGE:latest --tag $IMAGE:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=$PROJECT .
