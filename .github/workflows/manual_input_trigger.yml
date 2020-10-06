@@ -43,7 +43,7 @@ jobs:
         
     - name: Build image
       env:
-        VERSION: $(cat /home/runner/work/MainProject/MainProject/version.txt)
+        VERSION: cat /home/runner/work/MainProject/MainProject/version.txt
         PROJECT: ${{ github.event.inputs.projectName }}
         IMAGE: bbordas/mainproject_${{ github.event.inputs.projectName }}
       run: docker build --no-cache --file Dockerfile --tag $IMAGE:latest --tag $IMAGE:$VERSION --build-arg PROJECT_NAME=$PROJECT .
