@@ -32,7 +32,6 @@ jobs:
         
     - name: Define variables
       run: |
-          echo $(cat /home/runner/work/MainProject/MainProject/version.txt) > VERSION
           echo "${{ github.event.inputs.projectName }}" > PROJECT
           echo "bbordas/mainproject_${{ github.event.inputs.projectName }}" > IMAGE
         
