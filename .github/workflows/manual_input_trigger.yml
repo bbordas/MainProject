@@ -30,11 +30,6 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASS }}
         
-    - name: Define variables
-      run: |
-          echo "${{ github.event.inputs.projectName }}" > PROJECT
-          echo "bbordas/mainproject_${{ github.event.inputs.projectName }}" > IMAGE
-        
 #     - name: Set env
 #       uses: allenevans/set-env@v1.0.0
 #       with: 
@@ -44,14 +39,9 @@ jobs:
 #         IMAGE: bbordas/mainproject_${{ github.event.inputs.projectName }}
         
     - name: Build image
-      run: docker build --no-cache --file Dockerfile --tag $IMAGE:latest --tag $(cat IMAGE):$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=$(cat PROJECT) .
+      run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject_${{ github.event.inputs.projectName }}:latest --tag bbordas/mainproject_${{ github.event.inputs.projectName }}:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=${{ github.event.inputs.projectName }} .
 
     - name: Push to Docker Hub
       run: | 
-          docker push $(cat {IMAGE}):$(cat /home/runner/work/MainProject/MainProject/version.txt)
-          docker push $(cat {IMAGE}):latest
-          
-    - name: display environment
-      run: |
-        echo ${{ github.event.inputs.projectName }}
-        echo ${{ github.event.inputs.environment }}
+          docker push bbordas/mainproject_${{ github.event.inputs.projectName }}:$(cat /home/runner/work/MainProject/MainProject/version.txt)
+          docker push bbordas/mainproject_${{ github.event.inputs.projectName }}:latest
