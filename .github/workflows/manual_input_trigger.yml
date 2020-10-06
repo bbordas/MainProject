@@ -1,6 +1,9 @@
 name: Manual input trigger
 
 on: 
+  push:
+    branches: master
+    
   workflow_dispatch:
     inputs:
       projectName:
@@ -18,6 +21,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+      
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          project1:
+            - 'projects/project1/**'
+          project2:
+            - 'projects/project2/**'
+          project3:
+            - 'projects/project3/**'
       
     - name: Get Git Version
       uses: docker://gittools/gitversion:5.0.2-beta1-27-linux-centos-7-netcoreapp2.2
@@ -39,8 +53,13 @@ jobs:
 #         IMAGE: bbordas/mainproject_${{ github.event.inputs.projectName }}
         
     - name: Build image
-      run: docker build --no-cache --file Dockerfile --tag bbordas/mainproject_${{ github.event.inputs.projectName }}:latest --tag bbordas/mainproject_${{ github.event.inputs.projectName }}:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=${{ github.event.inputs.projectName }} .
-
+      run: docker build --no-cache --file Dockerfile --tag $IMAGE:latest --tag $IMAGE:$(cat /home/runner/work/MainProject/MainProject/version.txt) --build-arg PROJECT_NAME=$PROJECT .
+      env:
+        VERSION: $(cat /home/runner/work/MainProject/MainProject/version.txt)
+        PROJECT: ${{ github.event.inputs.projectName }}
+        IMAGE: bbordas/mainproject_${{ github.event.inputs.projectName }}
+        
+        
     - name: Push to Docker Hub
       run: | 
           docker push bbordas/mainproject_${{ github.event.inputs.projectName }}:$(cat /home/runner/work/MainProject/MainProject/version.txt)
