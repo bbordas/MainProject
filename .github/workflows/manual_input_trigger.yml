@@ -22,17 +22,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
       
-    - uses: dorny/paths-filter@v2
-      id: filter
-      with:
-        filters: |
-          project1:
-            - 'projects/project1/**'
-          project2:
-            - 'projects/project2/**'
-          project3:
-            - 'projects/project3/**'
-      
     - name: Get Git Version
       uses: docker://gittools/gitversion:5.0.2-beta1-27-linux-centos-7-netcoreapp2.2
       with:
