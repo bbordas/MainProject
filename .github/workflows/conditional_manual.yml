@@ -52,23 +52,24 @@ jobs:
       run: |
         if steps.filter.outputs.project1 == true
         then
-          $ENV='dev' 
-          $PROJECT='project1'
+          export $ENV='dev' 
+          export $PROJECT='project1'
         elif steps.filter.outputs.project2 == true
         then
-          $ENV='dev' 
-          $PROJECT='project2'
+          export $ENV='dev' 
+          export $PROJECT='project2'
         elif steps.filter.outputs.project3 == true
         then
-          $ENV='dev' 
-          $PROJECT='project3'
+          export $ENV='dev' 
+          export $PROJECT='project3'
         else
-          $PROJECT='project1'
-          $ENV='dev'
+          export $PROJECT='project1'
+          export $ENV='dev'
         fi
+        export $VERSION = cat /home/runner/work/MainProject/MainProject/version.txt  
         echo $PROJECT
         echo $ENV
-     #  $VERSION = cat /home/runner/work/MainProject/MainProject/version.txt   
+        echo $VERSION  
         
   
 #     - name: Set up QEMU
