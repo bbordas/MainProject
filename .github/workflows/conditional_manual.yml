@@ -87,6 +87,8 @@ jobs:
     - name: Build image
       if: ${{ env.PROJECT_NAME }} != null
       run: | 
+        echo $PROJECT_NAME
+        
         if $PROJECT_NAME != null
         then
           (docker build --no-cache --file Dockerfile \
