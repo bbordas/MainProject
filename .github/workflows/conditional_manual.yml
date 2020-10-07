@@ -72,7 +72,6 @@ jobs:
         echo "ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
         
     - name: print out variables
-      if: $PROJECT_NAME == true
       run: |
         echo $PROJECT_NAME
         echo $ENV
