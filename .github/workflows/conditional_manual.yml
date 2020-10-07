@@ -35,17 +35,23 @@ jobs:
       id: filter
       with:
         filters: |
+          shared: &shared
+            - package.json
+            - tsconfig.json
           project1:
+            - *shared
             - 'projects/project1/**'
           project2:
+            - *shared
             - 'projects/project2/**'
           project3:
+            - *shared
             - 'projects/project3/**'
       
     - name: Set env variables
       shell: bash
       run: |
-        echo "ENV=prod" >> $GITHUB_ENV
+        echo "ENV=dev" >> $GITHUB_ENV
         echo "VERSION=$(cat /home/runner/work/MainProject/MainProject/version.txt)" >> $GITHUB_ENV
         
         if steps.filter.outputs.project1 == true
@@ -57,6 +63,9 @@ jobs:
         elif steps.filter.outputs.project3 == true
         then
            echo "PROJECT_NAME=project3" >> $GITHUB_ENV
+        elif github.event_name === workflow_dispatch
+          echo "PROJECT_NAME=${{ github.event.inputs.projectName }}" >> $GITHUB_ENV
+          echo "ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
         else
           echo "PROJECT_NAME=project1" >> $GITHUB_ENV
           echo "ENV=prod" >> $GITHUB_ENV
@@ -77,8 +86,10 @@ jobs:
         
     - name: Build image
       run: | 
-          docker build --no-cache --file Dockerfile --tag bbordas/mainproject_$PROJECT_NAME:latest \
-          --tag bbordas/mainproject_$PROJECT_NAME:$VERSION --build-arg PROJECT_NAME=$PROJECT_NAME .
+          docker build --no-cache --file Dockerfile \
+          --tag bbordas/mainproject_$PROJECT_NAME:latest \
+          --tag bbordas/mainproject_$PROJECT_NAME:$VERSION \
+          --build-arg PROJECT_NAME=$PROJECT_NAME .
         
     - name: Push to Docker Hub
       run: | 
