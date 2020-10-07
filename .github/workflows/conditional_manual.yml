@@ -31,7 +31,7 @@ jobs:
         args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_ShortSha > /github/workspace/version.txt\""
         
     - uses: dorny/paths-filter@v2
-      continue-on-error: true
+      if: github.event_name != 'workflow_dispatch'
       id: filter
       with:
         filters: |
@@ -78,14 +78,13 @@ jobs:
         echo $VERSION
 
     - name: Login to DockerHub
-      if: $env.PROJECT_NAME == true
       uses: docker/login-action@v1 
       with:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASS }}
         
     - name: Build image
-      if: env.PROJECT_NAME == true
+      if: ${{ env.PROJECT_NAME }} == 'true'
       run: | 
           docker build --no-cache --file Dockerfile \
           --tag bbordas/mainproject_$PROJECT_NAME:latest \
