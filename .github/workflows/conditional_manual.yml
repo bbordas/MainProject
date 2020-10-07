@@ -107,6 +107,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         WITH_V: false
-        CUSTOM_TAG: $VERSION-stable
+        CUSTOM_TAG: ${{ VERSION }}-stable
 
           
