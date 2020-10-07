@@ -84,6 +84,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASS }}
         
     - name: Build image
+      if: ${{ env.PROJECT_NAME }} == true
       run: | 
           docker build --no-cache --file Dockerfile \
           --tag bbordas/mainproject_$PROJECT_NAME:latest \
