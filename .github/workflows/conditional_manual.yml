@@ -35,14 +35,48 @@ jobs:
       with:
         path: /home/runner/work/MainProject/MainProject/version.txt
         
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v1
-      
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-
-    - name: Login to DockerHub
-      uses: docker/login-action@v1 
+    - uses: dorny/paths-filter@v2
+      if: steps.check.outcome == 'failure' || steps.check.outcome == 'success'
+      id: filter
       with:
-        username: ${{ secrets.DOCKERHUB_USER }}
-        password: ${{ secrets.DOCKERHUB_PASS }}
+        filters: |
+          project1:
+            - 'projects/project1/**'
+          project2:
+            - 'projects/project2/**'
+          project3:
+            - 'projects/project3/**'
+      
+    - name: Set env variables
+      shell: bash
+      run: |
+        if steps.filter.outputs.project1 == 'true'
+        then
+          $ENV=dev 
+          $PROJECT=project1
+        elif steps.filter.outputs.project2 == 'true'
+          $ENV=dev 
+          $PROJECT=project2
+        elif steps.filter.outputs.project3 == 'true'
+          $ENV=dev 
+          $PROJECT=project3
+        else
+          $ENV=${{ github.event.inputs.environment }} 
+          $PROJECT=${{ github.event.inputs.projectName }}
+        fi
+        
+    - name: print out project
+      run: echo $PROJECT + ' ' + $ENV
+        
+        
+#     - name: Set up QEMU
+#       uses: docker/setup-qemu-action@v1
+      
+#     - name: Set up Docker Buildx
+#       uses: docker/setup-buildx-action@v1
+
+#     - name: Login to DockerHub
+#       uses: docker/login-action@v1 
+#       with:
+#         username: ${{ secrets.DOCKERHUB_USER }}
+#         password: ${{ secrets.DOCKERHUB_PASS }}
