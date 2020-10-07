@@ -78,12 +78,14 @@ jobs:
         echo $VERSION
 
     - name: Login to DockerHub
+      if: $PROJECT_NAME == true
       uses: docker/login-action@v1 
       with:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASS }}
         
     - name: Build image
+      if: $PROJECT_NAME == true
       run: | 
           docker build --no-cache --file Dockerfile \
           --tag bbordas/mainproject_$PROJECT_NAME:latest \
@@ -91,6 +93,7 @@ jobs:
           --build-arg PROJECT_NAME=$PROJECT_NAME .
         
     - name: Push to Docker Hub
+      if: $PROJECT_NAME
       run: | 
           docker push bbordas/mainproject_$PROJECT_NAME:latest
           docker push bbordas/mainproject_$PROJECT_NAME:$VERSION
