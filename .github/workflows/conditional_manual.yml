@@ -31,7 +31,7 @@ jobs:
         args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_ShortSha > /github/workspace/version.txt\""
         
     - uses: dorny/paths-filter@v2
-      if: steps.check.outcome == 'failure' || steps.check.outcome == 'success'
+      continue-on-error: true
       id: filter
       with:
         filters: |
