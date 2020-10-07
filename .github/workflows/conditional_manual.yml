@@ -66,7 +66,7 @@ jobs:
           echo "PROJECT_NAME=project1" >> $GITHUB_ENV
           echo "ENV=prod" >> $GITHUB_ENV
         fi
-        echo "IMAGE=bbordas/mainproject_"$PROJECT_NAME >> $GITHUB_ENV
+        echo "IMAGE=echo $PROJECT_NAME" >> $GITHUB_ENV
 
     - name: print out variables
       run: |
