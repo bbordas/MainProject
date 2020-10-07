@@ -63,7 +63,7 @@ jobs:
         elif steps.filter.outputs.project3 == true
         then
            echo "PROJECT_NAME=project3" >> $GITHUB_ENV
-        elif github.event_name === workflow_dispatch
+        elif github.event_name == 'workflow_dispatch'
           echo "PROJECT_NAME=${{ github.event.inputs.projectName }}" >> $GITHUB_ENV
           echo "ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
         else
