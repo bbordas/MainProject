@@ -87,13 +87,19 @@ jobs:
     - name: Build image
       if: ${{ env.PROJECT_NAME }} != null
       run: | 
+        if $PROJECT_NAME != null
+        then
           docker build --no-cache --file Dockerfile \
           --tag bbordas/mainproject_$PROJECT_NAME:latest \
           --tag bbordas/mainproject_$PROJECT_NAME:$VERSION \
           --build-arg PROJECT_NAME=$PROJECT_NAME .
+        fi
         
     - name: Push to Docker Hub
       run: | 
+        if $PROJECT_NAME != null
+        then
           docker push bbordas/mainproject_$PROJECT_NAME:latest
           docker push bbordas/mainproject_$PROJECT_NAME:$VERSION
+        fi
           
