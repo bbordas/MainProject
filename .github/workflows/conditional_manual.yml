@@ -52,6 +52,7 @@ jobs:
       run: |
         echo "ENV=dev" >> $GITHUB_ENV
         echo "VERSION=$(cat /home/runner/work/MainProject/MainProject/version.txt)" >> $GITHUB_ENV
+        echo "PROJECT_NAME=null" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project1
       if: steps.filter.outputs.project1 == 'true'
@@ -84,7 +85,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASS }}
         
     - name: Build image
-      if: ${{ env.PROJECT_NAME }} == 'true'
+      if: ${{ env.PROJECT_NAME }} != 'null'
       run: | 
           docker build --no-cache --file Dockerfile \
           --tag bbordas/mainproject_$PROJECT_NAME:latest \
