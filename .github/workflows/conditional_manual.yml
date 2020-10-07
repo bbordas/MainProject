@@ -50,6 +50,7 @@ jobs:
     - name: Set env variables
       shell: bash
       run: |
+        $VERSION = $(cat /home/runner/work/MainProject/MainProject/version.txt)
         if steps.filter.outputs.project1 == true
         then
           $ENV='dev' 
@@ -63,9 +64,8 @@ jobs:
           $ENV='dev' 
           $PROJECT='project3'
         else
-          [ -f ${{ github.event.inputs.environment }} ] &&  $ENV=${{ github.event.inputs.environment }} || $ENV='dev'
-          [ -f ${{ github.event.inputs.projectName }} ] &&  $PROJECT=${{ github.event.inputs.projectName }} || $PROJECT='project1'
-          $VERSION = $(cat /home/runner/work/MainProject/MainProject/version.txt)
+          $PROJECT='project1'
+          $ENV='dev'
         fi
         
     - name: print out project
