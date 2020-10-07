@@ -98,7 +98,7 @@ jobs:
         docker push bbordas/mainproject_$PROJECT_NAME:$VERSION
         
         
-    - id: tag master
+    - name: tag master
       run: |
         sh 'export RELEASE_TAG=`git log -1 --format=%h` && git tag -a ${RELEASE_TAG}-stable -m \"Release of MainProject at ${RELEASE_TAG}\'
         sh 'git push origin --tags'
