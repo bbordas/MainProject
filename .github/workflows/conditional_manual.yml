@@ -62,8 +62,8 @@ jobs:
         then
           echo ::set-env name=PROJECT_NAME::"project3"
         else
-          echo "project1" >> $PROJECT_NAME
-          echo "prod" >> $ENV
+          echo "PROJECT_NAME=project1" >> $GITHUB_ENV
+          echo "ENV=prod" >> $GITHUB_ENV
         fi
 
 
