@@ -49,31 +49,23 @@ jobs:
             - 'projects/project3/**'
       
     - name: Set version and environment
-      shell: bash
       run: |
         echo "ENV=dev" >> $GITHUB_ENV
         echo "VERSION=$(cat /home/runner/work/MainProject/MainProject/version.txt)" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project1
       if: steps.filter.outputs.project1 == true
-      shell: bash
-      run: |
-        echo "PROJECT_NAME=project1" >> $GITHUB_ENV
+      run: echo "PROJECT_NAME=project1" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project2
       if: steps.filter.outputs.project2 == true
-      shell: bash
-      run: |
-        echo "PROJECT_NAME=project2" >> $GITHUB_ENV
+      run: echo "PROJECT_NAME=project2" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project3
       if: steps.filter.outputs.project3 == true
-      shell: bash
-      run: |
-        echo "PROJECT_NAME=project3" >> $GITHUB_ENV
+      run: echo "PROJECT_NAME=project3" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME from input
-      shell: bash
       if: github.event_name == 'workflow_dispatch'
       run: |
         echo "PROJECT_NAME=${{ github.event.inputs.projectName }}" >> $GITHUB_ENV
