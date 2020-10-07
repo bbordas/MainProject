@@ -54,13 +54,13 @@ jobs:
         echo "ENV=dev" >> $GITHUB_ENV
         echo "VERSION=$(cat /home/runner/work/MainProject/MainProject/version.txt)" >> $GITHUB_ENV
         
-        if steps.filter.outputs.project1 == true
+        if ${{ steps.filter.outputs.project1 }} == true
         then
            echo "PROJECT_NAME=project1" >> $GITHUB_ENV
-        elif steps.filter.outputs.project2 == true
+        elif ${{ steps.filter.outputs.project2 }} == true
         then
            echo "PROJECT_NAME=project2" >> $GITHUB_ENV
-        elif steps.filter.outputs.project3 == true
+        elif ${{ steps.filter.outputs.project3 }} == true
         then
            echo "PROJECT_NAME=project3" >> $GITHUB_ENV
         fi
