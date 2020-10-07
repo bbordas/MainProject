@@ -63,12 +63,13 @@ jobs:
           $ENV='dev' 
           $PROJECT='project3'
         else
-          $ENV=${{ github.event.inputs.environment }} || 'dev'
-          $PROJECT=${{ github.event.inputs.projectName }} || 'project1'
+          [ -f ${{ github.event.inputs.environment }} ] &&  $ENV=${{ github.event.inputs.environment }} || $ENV='dev'
+          [ -f ${{ github.event.inputs.projectName }} ] &&  $PROJECT=${{ github.event.inputs.projectName }} || $PROJECT='project1'
+          $VERSION = $(cat /home/runner/work/MainProject/MainProject/version.txt)
         fi
         
     - name: print out project
-      run: echo $PROJECT + ' ' + $ENV
+      run: echo $PROJECT + ' ' + $ENV + ' ' + $VERSION
         
         
 #     - name: Set up QEMU
