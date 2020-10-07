@@ -97,12 +97,13 @@ jobs:
         docker push bbordas/mainproject_$PROJECT_NAME:latest
         docker push bbordas/mainproject_$PROJECT_NAME:$VERSION
         
-        
-    - name: tag master
-      run: |
-        git config --global user.email "bogi.t.bordas@gmail.com"
-        git config --global user.name "bbordas"
-        export RELEASE_TAG=`git log -1 --format=%h` && git tag -a ${RELEASE_TAG}-stable -m "Release of MainProject at ${RELEASE_TAG}"
-        git push origin --tags
+    - uses: actions/checkout@master
+      with:
+        # Fetches entire history, so we can analyze commits since last tag
+        fetch-depth: 0
+    - name: Bump version and push tag
+      uses: mathieudutour/github-tag-action@v4.5
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 
           
