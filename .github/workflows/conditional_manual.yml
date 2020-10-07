@@ -50,19 +50,21 @@ jobs:
     - name: Set env variables
       shell: bash
       run: |
-        if steps.filter.outputs.project1 == 'true'
+        if steps.filter.outputs.project1 == true
         then
-          $ENV=dev 
-          $PROJECT=project1
-        elif steps.filter.outputs.project2 == 'true'
-          $ENV=dev 
-          $PROJECT=project2
-        elif steps.filter.outputs.project3 == 'true'
-          $ENV=dev 
-          $PROJECT=project3
+          $ENV='dev' 
+          $PROJECT='project1'
+        elif steps.filter.outputs.project2 == true
+        then
+          $ENV='dev' 
+          $PROJECT='project2'
+        elif steps.filter.outputs.project3 == true
+        then
+          $ENV='dev' 
+          $PROJECT='project3'
         else
-          $ENV=${{ github.event.inputs.environment }} 
-          $PROJECT=${{ github.event.inputs.projectName }}
+          $ENV=${{ github.event.inputs.environment }} || 'dev'
+          $PROJECT=${{ github.event.inputs.projectName }} || 'project1'
         fi
         
     - name: print out project
