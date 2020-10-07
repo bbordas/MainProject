@@ -97,13 +97,16 @@ jobs:
         docker push bbordas/mainproject_$PROJECT_NAME:latest
         docker push bbordas/mainproject_$PROJECT_NAME:$VERSION
         
-    - uses: actions/checkout@master
+
+    - uses: actions/checkout@v2
       with:
-        # Fetches entire history, so we can analyze commits since last tag
-        fetch-depth: 0
+        fetch-depth: '0'
+        
     - name: Bump version and push tag
-      uses: mathieudutour/github-tag-action@v4.5
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+      uses: anothrNick/github-tag-action@1.26.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: false
+        CUSTOM_TAG: $VERSION-stable
 
           
