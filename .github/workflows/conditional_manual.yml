@@ -63,8 +63,8 @@ jobs:
           export ENV='dev' 
           export PROJECT='project3'
         else
-          export PROJECT='project1'
-          export ENV='dev'
+          echo ::set-env name=PROJECT::"project1"
+          echo ::set-env name=ENV::"dev"
         fi
 
 
