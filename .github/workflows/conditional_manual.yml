@@ -98,20 +98,9 @@ jobs:
         docker push bbordas/mainproject_$PROJECT_NAME:$VERSION
         
         
-    - id: compute_tag
-      uses: craig-day/compute-tag@v10
-      with:
-        github_token: ${{ github.token }}
-        version_scheme: semantic
-
-    - name: create release
-      uses: actions/create-release@v1
-      with:
-        tag_name: ${{ steps.compute_tag.outputs.next_tag }}
-        release_name: ${{ steps.compute_tag.outputs.next_tag }}
-        body: >
-            Automatic release of ${{ steps.compute_tag.outputs.next_tag }}
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+    - id: tag master
+      run: |
+        sh 'export RELEASE_TAG=`git log -1 --format=%h` && git tag -a ${RELEASE_TAG}-stable -m \"Release of MainProject at ${RELEASE_TAG}\'
+        sh 'git push origin --tags'
 
           
