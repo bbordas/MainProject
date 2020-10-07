@@ -66,10 +66,8 @@ jobs:
           export PROJECT='project1'
           export ENV='dev'
         fi
-        export VERSION = cat /home/runner/work/MainProject/MainProject/version.txt  
         echo $PROJECT
         echo $ENV
-        echo $VERSION  
         
   
 #     - name: Set up QEMU
