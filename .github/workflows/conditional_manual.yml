@@ -25,15 +25,15 @@ jobs:
     steps:
     - uses: actions/checkout@v1
       
-    - name: Get Git Version
-      uses: docker://gittools/gitversion:5.0.2-beta1-27-linux-centos-7-netcoreapp2.2
-      with:
-        args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_ShortSha > /github/workspace/version.txt\""
+#     - name: Get Git Version
+#       uses: docker://gittools/gitversion:5.0.2-beta1-27-linux-centos-7-netcoreapp2.2
+#       with:
+#         args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_ShortSha > /github/workspace/version.txt\""
         
-    - uses: pCYSl5EDgo/cat@master
-      id: hello
-      with:
-        path: /home/runner/work/MainProject/MainProject/version.txt
+#     - uses: pCYSl5EDgo/cat@master
+#       id: hello
+#       with:
+#         path: /home/runner/work/MainProject/MainProject/version.txt
         
     - uses: dorny/paths-filter@v2
       if: steps.check.outcome == 'failure' || steps.check.outcome == 'success'
@@ -66,6 +66,12 @@ jobs:
           export PROJECT='project1'
           export ENV='dev'
         fi
+
+
+
+
+    - name: print out variables
+      run: |
         echo $PROJECT
         echo $ENV
         
