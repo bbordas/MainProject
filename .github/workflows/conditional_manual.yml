@@ -63,19 +63,16 @@ jobs:
         elif steps.filter.outputs.project3 == true
         then
            echo "PROJECT_NAME=project3" >> $GITHUB_ENV
-        elif github.event_name == 'workflow_dispatch'
-        then
-          echo "PROJECT_NAME=${{ github.event.inputs.projectName }}" >> $GITHUB_ENV
-          echo "ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
-        else
-          echo "PROJECT_NAME=project1" >> $GITHUB_ENV
-          echo "ENV=prod" >> $GITHUB_ENV
         fi
 
-    - name: print out variables
+    - name: Set variables from input
       if: github.event_name == 'workflow_dispatch'
       run: |
-        echo anyad
+        echo "PROJECT_NAME=${{ github.event.inputs.projectName }}" >> $GITHUB_ENV
+        echo "ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+        
+    - name: print out variables
+      run: |
         echo $PROJECT_NAME
         echo $ENV
         echo $VERSION
