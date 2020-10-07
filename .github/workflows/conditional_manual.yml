@@ -100,6 +100,9 @@ jobs:
         
     - name: tag master
       run: |
+        git branch: master
+        git config --global user.email "bogi.t.bordas@gmail.com"
+        git config --global user.name "bbordas"
         export RELEASE_TAG=`git log -1 --format=%h` && git tag -a ${RELEASE_TAG}-stable -m "Release of MainProject at ${RELEASE_TAG}"
         git push origin --tags
 
