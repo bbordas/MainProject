@@ -50,21 +50,20 @@ jobs:
     - name: Set env variables
       shell: bash
       run: |
+        echo ::set-env name=ENV::"dev"
+        echo ::set-env name=VERSION::"project1"
         if steps.filter.outputs.project1 == true
         then
-          export ENV='dev' 
-          export PROJECT='project1'
+          echo ::set-env name=PROJECT_NAME::"project1"
         elif steps.filter.outputs.project2 == true
         then
-          export ENV='dev' 
-          export PROJECT='project2'
+          echo ::set-env name=PROJECT_NAME::"project2"
         elif steps.filter.outputs.project3 == true
         then
-          export ENV='dev' 
-          export PROJECT='project3'
+          echo ::set-env name=PROJECT_NAME::"project3"
         else
-          echo ::set-env name=PROJECT::"project1"
-          echo ::set-env name=ENV::"dev"
+          echo ::set-env name=PROJECT_NAME::"project1"
+          echo ::set-env name=ENV::"prod"
         fi
 
 
