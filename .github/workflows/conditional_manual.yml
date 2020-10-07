@@ -73,7 +73,9 @@ jobs:
         fi
 
     - name: print out variables
+      if: github.event_name == 'workflow_dispatch'
       run: |
+        echo anyad
         echo $PROJECT_NAME
         echo $ENV
         echo $VERSION
