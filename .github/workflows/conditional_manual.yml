@@ -73,7 +73,12 @@ jobs:
         
     - name: print out variables
       id: check
-      run: echo ::set-output name=project::$PROJECT_NAME
+      run: | 
+        echo ::set-output name=project::$PROJECT_NAME
+        for value in "${$PROJECT_NAME[@]}"
+        do
+             echo $value
+        done
 
     - name: Login to DockerHub
       if: steps.check.outputs.project != 'null'
