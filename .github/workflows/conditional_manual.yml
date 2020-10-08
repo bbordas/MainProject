@@ -57,15 +57,15 @@ jobs:
         echo "PROJECT_NAME=null" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project1
-      if: steps.filter.outputs.project1 == 'true' && matrix.project[0] == 'project1' 
+      if: steps.filter.outputs.project1 == 'true' && matrix.project == 'project1' 
       run: echo "PROJECT_NAME=project1" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project2
-      if: steps.filter.outputs.project2 == 'true' && matrix.project[1] == 'project2'
+      if: steps.filter.outputs.project2 == 'true' && matrix.project == 'project2'
       run: echo "PROJECT_NAME=project2" >> $GITHUB_ENV
         
-    - name: Set PROJECT_NAME for project3 && matrix.project[2] == 'project3'
-      if: steps.filter.outputs.project3 == 'true'
+    - name: Set PROJECT_NAME for project3 
+      if: steps.filter.outputs.project3 == 'true' && matrix.project == 'project3'
       run: echo "PROJECT_NAME=project3" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME from input
