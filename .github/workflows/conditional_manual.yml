@@ -75,7 +75,7 @@ jobs:
       id: check
       run: | 
         echo ::set-output name=project::$PROJECT_NAME
-        for value in "${$PROJECT_NAME[@]}"
+        for value in "$PROJECT_NAME[@]"
         do
              echo $value
         done
