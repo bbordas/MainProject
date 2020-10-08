@@ -59,19 +59,19 @@ jobs:
         echo "PROJECT_NAME=null" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project1
-      if: steps.filter.outputs.project1 == 'true' && matrix.project == 'first' 
+      if: steps.filter.outputs.project1 == 'true' && matrix.run == 'first' 
       run: echo "PROJECT_NAME=project1" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project2
-      if: steps.filter.outputs.project2 == 'true' && matrix.project == 'second'
+      if: steps.filter.outputs.project2 == 'true' && matrix.run == 'second'
       run: echo "PROJECT_NAME=project2" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project3 
-      if: steps.filter.outputs.project3 == 'true' && matrix.project == 'third'
+      if: steps.filter.outputs.project3 == 'true' && matrix.run == 'third'
       run: echo "PROJECT_NAME=project3" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME from input
-      if: github.event_name == 'workflow_dispatch' && matrix.project == 'first'
+      if: github.event_name == 'workflow_dispatch' && matrix.run == 'first'
       run: |
         arr=$PROJECT_NAME
         arr+=("${{ github.event.inputs.projectName }}")
