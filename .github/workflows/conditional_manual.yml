@@ -81,10 +81,6 @@ jobs:
       id: check
       run: | 
         echo ::set-output name=project::$PROJECT_NAME
-        for i in ${$PROJECT_NAME//,/ }
-        do
-            echo "$i"
-        done
 
     - name: Login to DockerHub
       if: steps.check.outputs.project != 'null'
