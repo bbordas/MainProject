@@ -55,15 +55,15 @@ jobs:
         
     - name: Set PROJECT_NAME for project1
       if: steps.filter.outputs.project1 == 'true'
-      run: echo "PROJECT_NAME+='project1'" >> $GITHUB_ENV
+      run: echo "PROJECT_NAME+=('project1')" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project2
       if: steps.filter.outputs.project2 == 'true'
-      run: echo "PROJECT_NAME+='project2'" >> $GITHUB_ENV
+      run: echo "PROJECT_NAME+=('project2')" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project3
       if: steps.filter.outputs.project3 == 'true'
-      run: echo "PROJECT_NAME+='project3'" >> $GITHUB_ENV
+      run: echo "PROJECT_NAME+=('project3')" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME from input
       if: github.event_name == 'workflow_dispatch'
