@@ -51,7 +51,7 @@ jobs:
     - name: Set version and environment
       run: |
         echo "ENV=dev" >> $GITHUB_ENV
-        echo "PROJECT_NAME=('null')" >> $GITHUB_ENV
+        echo "PROJECT_NAME=("null")" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project1
       if: steps.filter.outputs.project1 == 'true'
@@ -75,7 +75,7 @@ jobs:
       id: check
       run: | 
         echo ::set-output name=project::$PROJECT_NAME
-        for value in "$PROJECT_NAME[@]"
+        for value in "$PROJECT_NAME"
         do
              echo $value
         done
