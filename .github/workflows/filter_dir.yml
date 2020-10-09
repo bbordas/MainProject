@@ -26,4 +26,8 @@ jobs:
 
       - name: Check which dir was changed
         shell: bash
-        run: ls
+        run: |
+          ls
+          $ echo $PWD    
+          $ for FILE in "${PWD}/*"; do echo "$FILE"; done
+
