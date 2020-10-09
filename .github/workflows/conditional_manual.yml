@@ -57,11 +57,13 @@ jobs:
             - 'projects/project3/**'
       
     - name: Set version and environment
+      shell: bash
       run: |
+        foo=$(git rev-parse --short HEAD)
         echo "ENV=dev" >> $GITHUB_ENV
         echo "PROJECT_NAME=null" >> $GITHUB_ENV
-        echo git rev-parse --short HEAD >> VERSION
-        echo $VERSION >> $GITHUB_ENV
+        echo "VERSION=${foo}" >> VERSION
+
         
     - name: Set PROJECT_NAME for project1
       if: steps.filter.outputs.project1 == 'true' && matrix.run == 'first' 
