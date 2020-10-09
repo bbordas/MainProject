@@ -27,6 +27,8 @@ jobs:
       - name: Check which dir was changed
         shell: bash
         run: |
+            watcher init <projects/project1> 
+          
             # Config
             cache_dir="$HOME/.watcher-cache"
 
