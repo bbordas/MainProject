@@ -33,7 +33,7 @@ jobs:
     - name: Get Git Version
       uses: docker://gittools/gitversion:5.0.2-beta1-27-linux-centos-7-netcoreapp2.2
       with:
-        args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo VERSION=$GitVersion_ShortSha >> $GITHUB_ENV""
+        args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo VERSIONi=$GitVersion_ShortSha >> $GITHUB_ENV""
         
     - uses: dorny/paths-filter@v2
       if: github.event_name != 'workflow_dispatch'
@@ -57,6 +57,7 @@ jobs:
       run: |
         echo "ENV=dev" >> $GITHUB_ENV
         echo "PROJECT_NAME=null" >> $GITHUB_ENV
+        echo "VERSION=$GitVersion_ShortSha" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project1
       if: steps.filter.outputs.project1 == 'true' && matrix.run == 'first' 
