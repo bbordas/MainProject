@@ -6,13 +6,17 @@ on:
   push:
     branches:
       - '**'
+#     paths:
+#       - projects/project1/**
+#       - projects/project2/**
+#       - projects/project3/**
         
   workflow_dispatch:
     inputs:
       projectName:
         description: 'Project name'     
         required: true
-        default: 'project1'
+        default: 'project1' 
       environment:
         description: 'environment'     
         required: true
@@ -29,6 +33,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+   
+    - name: Display the path
+      run: echo $PATH
+      shell: bash
       
     - name: Get Git Version
       uses: docker://gittools/gitversion:5.0.2-beta1-27-linux-centos-7-netcoreapp2.2
