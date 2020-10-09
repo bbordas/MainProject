@@ -58,10 +58,9 @@ jobs:
       
     - name: Set version and environment
       run: |
-        sha = git rev-parse --short HEAD
         echo "ENV=dev" >> $GITHUB_ENV
         echo "PROJECT_NAME=null" >> $GITHUB_ENV
-        echo "VERSION=$sha" >> $GITHUB_ENV
+        echo "VERSION= echo git rev-parse --short HEAD" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project1
       if: steps.filter.outputs.project1 == 'true' && matrix.run == 'first' 
