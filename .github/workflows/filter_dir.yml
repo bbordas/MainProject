@@ -28,6 +28,10 @@ jobs:
         shell: bash
         run: |
           ls
-          $ echo $PWD    
-          $ for FILE in "${PWD}/*"; do echo "$FILE"; done
+          #!/bin/sh
+          while inotifywait -e modify /projects/project1; do
+            if tail -n1 /projects/project1; then
+              echo fuck
+            fi
+          done
 
