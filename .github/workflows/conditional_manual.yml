@@ -35,7 +35,7 @@ jobs:
     - uses: actions/checkout@v1
    
     - name: Display the path
-      run: git log --pretty="%h %cD %cn %s"  
+      run: git rev-parse --short HEAD
       shell: bash
       
     - name: Get Git Version
