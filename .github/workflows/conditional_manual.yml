@@ -60,7 +60,8 @@ jobs:
       run: |
         echo "ENV=dev" >> $GITHUB_ENV
         echo "PROJECT_NAME=null" >> $GITHUB_ENV
-        echo "VERSION= echo git rev-parse --short HEAD" >> $GITHUB_ENV
+        echo git rev-parse --short HEAD >> VERSION
+        echo $VERSION >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project1
       if: steps.filter.outputs.project1 == 'true' && matrix.run == 'first' 
@@ -77,11 +78,8 @@ jobs:
     - name: Set PROJECT_NAME from input
       if: github.event_name == 'workflow_dispatch' && matrix.run == 'first'
       run: |
-        arr=$PROJECT_NAME
-        arr+=("${{ github.event.inputs.projectName }}")
         echo "PROJECT_NAME=${{ github.event.inputs.projectName }}" >> $GITHUB_ENV
         echo "ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
-        echo arr::${arr[@]}
         
     - name: print out variables
       id: check
