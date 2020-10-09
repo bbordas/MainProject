@@ -59,10 +59,9 @@ jobs:
     - name: Set version and environment
       shell: bash
       run: |
-        foo=$(git rev-parse --short HEAD)
         echo "ENV=dev" >> $GITHUB_ENV
         echo "PROJECT_NAME=null" >> $GITHUB_ENV
-        echo "VERSION=${foo}" >> $GITHUB_ENV
+        echo "VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
         
     - name: Set PROJECT_NAME for project1
