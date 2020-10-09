@@ -62,7 +62,7 @@ jobs:
         foo=$(git rev-parse --short HEAD)
         echo "ENV=dev" >> $GITHUB_ENV
         echo "PROJECT_NAME=null" >> $GITHUB_ENV
-        echo "VERSION=${foo}" >> VERSION
+        echo "VERSION=${foo}" >> $GITHUB_ENV
 
         
     - name: Set PROJECT_NAME for project1
