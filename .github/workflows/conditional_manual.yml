@@ -6,15 +6,11 @@ on:
   push:
     branches:
       - '**'
-#     paths:
-#       - projects/project1/**
-#       - projects/project2/**
-#       - projects/project3/**
         
   workflow_dispatch:
     inputs:
       projectName:
-        description: 'Project name'     
+        description: 'Project name (project1 | project2 | project3)'     
         required: true
         default: 'project1' 
       environment:
@@ -27,19 +23,17 @@ jobs:
     strategy:
       matrix:
         # you need as many options for run as many projects you have
-        run: [first, second, third]
+        deploy: [project1, project2, project3, manual]
       
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
    
-    - name: Display the path
-      run: git rev-parse --short HEAD
-      shell: bash
              
-    - uses: dorny/paths-filter@v2
-      if: github.event_name != 'workflow_dispatch'
+    - name: Identify by path which project has to be built
+      uses: dorny/paths-filter@v2
+      continue-on-error: true
       id: filter
       with:
         filters: |
@@ -56,37 +50,30 @@ jobs:
             - *shared
             - 'projects/project3/**'
       
-    - name: Set version and environment
-      shell: bash
+    - name: Write default version and environment into github environmet variables
       run: |
         echo "ENV=dev" >> $GITHUB_ENV
         echo "PROJECT_NAME=null" >> $GITHUB_ENV
         echo "VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
         
     - name: Set PROJECT_NAME for project1
-      if: steps.filter.outputs.project1 == 'true' && matrix.run == 'first' 
+      if: steps.filter.outputs.project1 == 'true' && matrix.run == 'project1' 
       run: echo "PROJECT_NAME=project1" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project2
-      if: steps.filter.outputs.project2 == 'true' && matrix.run == 'second'
+      if: steps.filter.outputs.project2 == 'true' && matrix.run == 'project2'
       run: echo "PROJECT_NAME=project2" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project3 
-      if: steps.filter.outputs.project3 == 'true' && matrix.run == 'third'
+      if: steps.filter.outputs.project3 == 'true' && matrix.run == 'project3'
       run: echo "PROJECT_NAME=project3" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME from input
-      if: github.event_name == 'workflow_dispatch' && matrix.run == 'first'
+      if: github.event_name == 'workflow_dispatch' && matrix.run == 'manual'
       run: |
         echo "PROJECT_NAME=${{ github.event.inputs.projectName }}" >> $GITHUB_ENV
         echo "ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
-        
-    - name: print out variables
-      id: check
-      run: | 
-        echo ::set-output name=project::$PROJECT_NAME
-
+ 
     - name: Login to DockerHub
       if: steps.check.outputs.project != 'null'
       uses: docker/login-action@v1 
@@ -94,14 +81,9 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASS }}
         
-    - name: Build image
+    - name: Build Docker image
       if: steps.check.outputs.project != 'null'
       run: | 
-        docker build --no-cache --file Dockerfile \
-        --tag bbordas/mainproject_$PROJECT_NAME:latest \
-        --tag bbordas/mainproject_$PROJECT_NAME:$VERSION \
-        --build-arg PROJECT_NAME=$PROJECT_NAME .
-         
         docker build --no-cache --file Dockerfile \
         --tag bbordas/mainproject_$PROJECT_NAME:latest \
         --tag bbordas/mainproject_$PROJECT_NAME:$VERSION \
@@ -112,11 +94,6 @@ jobs:
       run: | 
         docker push bbordas/mainproject_$PROJECT_NAME:latest
         docker push bbordas/mainproject_$PROJECT_NAME:$VERSION
-        
-    - uses: actions/checkout@v2
-      if: steps.check.outputs.project != 'null'
-      with:
-        fetch-depth: '0'
         
     - name: Bump version and push tag
       if: steps.check.outputs.project != 'null'
