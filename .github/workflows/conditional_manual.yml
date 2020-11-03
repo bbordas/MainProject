@@ -23,7 +23,8 @@ jobs:
     strategy:
       matrix:
         # you need as many options for run as many projects you have
-        deploy: [project1, project2, project3, manual]
+          deploy: [project1]
+        # deploy: [project1, project2, project3, manual]
       
     runs-on: ubuntu-latest
 
