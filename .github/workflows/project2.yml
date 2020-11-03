@@ -5,7 +5,7 @@ name: Project2 CI
 on:
   push:
     branches: 
-      - '*'
+      - 'work_on_project2_branch'
     paths:
       - projects/project2/**
 
