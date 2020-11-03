@@ -5,7 +5,7 @@ name: Conditional Manual
 on:
   push:
     branches:
-      - '**'
+      - master
         
   workflow_dispatch:
     inputs:
@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         # you need as many options for run as many projects you have
-          deploy: [project1]
+          deploy: [project1, manual]
         # deploy: [project1, project2, project3, manual]
       
     runs-on: ubuntu-latest
@@ -57,17 +57,17 @@ jobs:
         echo "VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project1
-      if: steps.filter.outputs.project1 == true && matrix.run == 'project1' 
+      if: steps.filter.outputs.project1 == 'true' && matrix.run == 'project1' 
       run: |
         echo in set project1
         echo "PROJECT_NAME=project1" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project2
-      if: steps.filter.outputs.project2 == true && matrix.run == 'project2'
+      if: steps.filter.outputs.project2 == 'true' && matrix.run == 'project2'
       run: echo "PROJECT_NAME=project2" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project3 
-      if: steps.filter.outputs.project3 == true && matrix.run == 'project3'
+      if: steps.filter.outputs.project3 == 'true' && matrix.run == 'project3'
       run: echo "PROJECT_NAME=project3" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME from input
