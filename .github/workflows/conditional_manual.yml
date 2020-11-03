@@ -30,7 +30,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
    
-             
     - name: Identify by path which project has to be built
       uses: dorny/paths-filter@v2
       continue-on-error: true
@@ -73,6 +72,10 @@ jobs:
       run: |
         echo "PROJECT_NAME=${{ github.event.inputs.projectName }}" >> $GITHUB_ENV
         echo "ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+        
+    - name: Set output from $PROJECT_NAME to be able to use in condition
+      id: check
+      run: echo ::set-output name=project::$PROJECT_NAME
  
     - name: Login to DockerHub
       if: steps.check.outputs.project != 'null'
