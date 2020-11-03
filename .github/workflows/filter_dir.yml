@@ -9,10 +9,10 @@ on:
     branches: 
       - '**'
     paths:
-      - projects/project1/**
-      - projects/project2/**
-      - projects/project3/**
-      - package.json
+#       - projects/project1/**
+#       - projects/project2/**
+#       - projects/project3/**
+#       - package.json
       - tsconfig.json
   
   workflow_dispatch:
