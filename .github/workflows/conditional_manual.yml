@@ -58,7 +58,9 @@ jobs:
         
     - name: Set PROJECT_NAME for project1
       if: steps.filter.outputs.project1 == 'true' && matrix.run == 'project1' 
-      run: echo "PROJECT_NAME=project1" >> $GITHUB_ENV
+      run: |
+        echo in set project1
+        echo "PROJECT_NAME=project1" >> $GITHUB_ENV
         
     - name: Set PROJECT_NAME for project2
       if: steps.filter.outputs.project2 == 'true' && matrix.run == 'project2'
