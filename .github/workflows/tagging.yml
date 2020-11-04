@@ -1,0 +1,19 @@
+name: Tagging
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Git Tag
+        run: | 
+          git config user.email "bogi.t.bordas@gmail.com"
+          git config user.name "bbordas"
+          git tag ${{ env.VERSION }} && git push --tags
+          
