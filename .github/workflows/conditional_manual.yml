@@ -100,8 +100,7 @@ jobs:
 #         docker push bbordas/mainproject_$PROJECT_NAME:latest
 #         docker push bbordas/mainproject_$PROJECT_NAME:$VERSION
         
-#     - uses: actions/checkout@v2
-        
+    - uses: actions/checkout@v2   
     - name: Git Tag
       continue-on-error: true
       if: steps.check.outputs.project != 'null'
