@@ -103,7 +103,9 @@ jobs:
         
     - name: Bump version and push tag
       if: steps.check.outputs.project != 'null'
-      run: git tag ${{ env.VERSION }}-new && git push origin --tags 
+      run: | 
+        git tag ${{ env.VERSION }}
+        npm run postversion
         
 #     - name: Bump version and push tag
 #       if: steps.check.outputs.project != 'null'
