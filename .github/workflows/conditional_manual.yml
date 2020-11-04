@@ -23,8 +23,7 @@ jobs:
     strategy:
       matrix:
         # you need as many options for run as many projects you have
-          deploy: [project1, manual]
-        # deploy: [project1, project2, project3, manual]
+          deploy: [project1, project2, project3, manual]
       
     runs-on: ubuntu-latest
 
@@ -104,6 +103,8 @@ jobs:
     - uses: actions/checkout@v2
         
     - name: Git Tag
+      continue-on-error: true
+      if: steps.check.outputs.project != 'null'
       run: | 
           git config user.email "bogi.t.bordas@gmail.com"
           git config user.name "bbordas"
