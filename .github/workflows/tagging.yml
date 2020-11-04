@@ -13,7 +13,5 @@ jobs:
 
       - name: Git Tag
         run: | 
-          git config user.email "bogi.t.bordas@gmail.com"
-          git config user.name "bbordas"
-          git tag ${{ env.VERSION }} && git push --tags
+          echo hello
           
