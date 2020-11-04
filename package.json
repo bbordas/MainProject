@@ -7,8 +7,7 @@
     "build": "ng build --prod --project=${NAME:-project1}",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "postversion": "git tag ${TAG:-tag} && git push && git push --tags"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
