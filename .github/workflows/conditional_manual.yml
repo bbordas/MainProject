@@ -91,14 +91,14 @@ jobs:
       run: | 
         docker build --no-cache --file Dockerfile \
         --tag bbordas/mainproject_$PROJECT_NAME:latest \
-        --tag bbordas/mainproject_$PROJECT_NAME:${{ env.VERSION } \
+        --tag bbordas/mainproject_$PROJECT_NAME:${{ env.VERSION }} \
         --build-arg PROJECT_NAME=$PROJECT_NAME .
  
     - name: Push to Docker Hub
       if: steps.check.outputs.project != 'null'
       run: | 
         docker push bbordas/mainproject_$PROJECT_NAME:latest
-        docker push bbordas/mainproject_$PROJECT_NAME:${{ env.VERSION }
+        docker push bbordas/mainproject_$PROJECT_NAME:${{ env.VERSION }}
         
     - uses: actions/checkout@v2   
     - name: Git Tag
